@@ -2,10 +2,12 @@ package com.api.collections.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Document(collection = "tasks")
 
@@ -15,8 +17,8 @@ public class TaskDocument {
     private @MongoId String _id;
     private String title;
     private String description;
-    private Date startingDate;
-    private Date endingDate;
+    private LocalDateTime startingDate;
+    private LocalDateTime endingDate;
     private int priority;
     private int status;
 
