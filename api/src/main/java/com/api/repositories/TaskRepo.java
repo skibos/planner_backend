@@ -11,10 +11,13 @@ import java.util.List;
 @Repository
 public interface TaskRepo extends MongoRepository<TaskDocument, String>{
 
-    @Query("{$and: [{startingDate: {$gt: ?0}}, {endingDate: {$lt: ?1}}]}")
-    List<TaskDocument> findAllByDate(LocalDateTime startingDate, LocalDateTime endingDate);
+    @Query("{$and: [{startingDate: {$gt: ?0}}, {endingDate: {$lt: ?1}}, {deviceId: ?2}]}")
+    List<TaskDocument> findAllByDate(LocalDateTime startingDate, LocalDateTime endingDate, String deviceId);
 
-    @Query("{$and: [{startingDate: {$gt: ?0}}, {endingDate: {$lt: ?1}}, {status: ?2}]}")
-    List<TaskDocument> findAllByDateAndStatus(LocalDateTime startingDate, LocalDateTime endingDate, Integer status);
+    @Query("{$and: [{startingDate: {$gt: ?0}}, {endingDate: {$lt: ?1}}, {status: ?2}, {deviceId: ?3}]}")
+    List<TaskDocument> findAllByDateAndStatus(LocalDateTime startingDate, LocalDateTime endingDate, Integer status, String deviceId);
 
+    @Query("{deviceId: ?0}")
+    List<TaskDocument> findAllByDeviceId(String deviceId);
 }
+

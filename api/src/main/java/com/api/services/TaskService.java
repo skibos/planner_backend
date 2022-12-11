@@ -1,6 +1,5 @@
 package com.api.services;
 
-import com.api.JSON.GetTaskListBody;
 import com.api.JSON.AddTaskBody;
 import com.api.JSON.PatchTaskBody;
 import com.api.collections.tasks.TaskDocument;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -22,23 +22,29 @@ public class TaskService {
     @Autowired
     private TaskRepo taskRepo;
 
-    public List<TaskDocument> getTasks(GetTaskListBody getTaskListBody){
-        if(getTaskListBody.getStatus() != null){
+    public List<TaskDocument> getTasks(String deviceId, String date, String status){
+
+        LocalDate convertedDate = LocalDate.parse(date);
+
+        if(status != null){
+            int convertedStatus = Integer.parseInt(String.valueOf(status));
             return taskRepo.findAllByDateAndStatus(
-                    LocalDateTime.of(getTaskListBody.getDate(), LocalTime.MIN),
-                    LocalDateTime.of(getTaskListBody.getDate(), LocalTime.MAX),
-                    getTaskListBody.getStatus()
+                    LocalDateTime.of(convertedDate, LocalTime.MIN),
+                    LocalDateTime.of(convertedDate, LocalTime.MAX),
+                    convertedStatus,
+                    deviceId
             );
         }
         else{
             return taskRepo.findAllByDate(
-                    LocalDateTime.of(getTaskListBody.getDate(), LocalTime.MIN),
-                    LocalDateTime.of(getTaskListBody.getDate(), LocalTime.MAX)
+                    LocalDateTime.of(convertedDate, LocalTime.MIN),
+                    LocalDateTime.of(convertedDate, LocalTime.MAX),
+                    deviceId
             );
         }
     }
 
-    public void addTask(AddTaskBody addTaskBody){
+    public void addTask(AddTaskBody addTaskBody, String deviceId){
         TaskDocument newDocument = new TaskDocument(
                 ObjectId.get().toString(),
                 addTaskBody.getTitle(),
@@ -46,14 +52,17 @@ public class TaskService {
                 addTaskBody.getStartingDate(),
                 addTaskBody.getEndingDate(),
                 addTaskBody.getPriority(),
-                0
+                0,
+                deviceId
         );
 
         taskRepo.insert(newDocument);
     }
 
-    public void deleteAllTasks(){
-        taskRepo.deleteAll();
+    public void deleteAllTasks(String deviceId){
+        List<TaskDocument> taskListByDeviceId = taskRepo.findAllByDeviceId(deviceId);
+
+        taskRepo.deleteAll(taskListByDeviceId);
     }
 
     public void deleteSingleTask(String id){

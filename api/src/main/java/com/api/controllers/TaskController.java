@@ -1,6 +1,5 @@
 package com.api.controllers;
 
-import com.api.JSON.GetTaskListBody;
 import com.api.JSON.AddTaskBody;
 import com.api.JSON.PatchTaskBody;
 import com.api.collections.tasks.TaskDocument;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -18,18 +18,22 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping("/getTasks")
-    public List<TaskDocument> getTasks(@RequestBody GetTaskListBody getTaskListBody){
-        return taskService.getTasks(getTaskListBody);
+    public List<TaskDocument> getTasks(
+            @RequestHeader String deviceId,
+            @RequestHeader String date,
+            @RequestHeader(required=false) String status
+            ){
+        return taskService.getTasks(deviceId, date, status);
     }
 
     @PostMapping("/addTask")
-    public void addTask(@RequestBody AddTaskBody addTaskBody){
-        taskService.addTask(addTaskBody);
+    public void addTask(@RequestBody AddTaskBody addTaskBody, @RequestHeader String deviceId){
+        taskService.addTask(addTaskBody, deviceId);
     }
 
     @DeleteMapping("/deleteAllTasks")
-    public void deleteAllTasks(){
-        taskService.deleteAllTasks();
+    public void deleteAllTasks(@RequestHeader String deviceId){
+        taskService.deleteAllTasks(deviceId);
     }
 
     @DeleteMapping("/deleteSingleTask")

@@ -14,12 +14,13 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class TaskDocument {
-    private @MongoId String _id;
+    private @MongoId String id;
     private String title;
     private String description;
     private LocalDateTime startingDate;
     private LocalDateTime endingDate;
     private int priority;
     private int status;
+    private String deviceId;
 
 }

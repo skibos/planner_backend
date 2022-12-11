@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
 public class PatchTaskBody extends AddTaskBody{
     @NonNull
     private @MongoId String id;
+    private String title;
+    private String description;
+    private Integer priority;
+    private LocalDateTime startingDate;
+    private LocalDateTime endingDate;
     private Integer status;
-
 }
