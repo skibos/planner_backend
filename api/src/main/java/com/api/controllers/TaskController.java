@@ -26,6 +26,11 @@ public class TaskController {
         return taskService.getTasks(deviceId, date, status);
     }
 
+    @GetMapping("/getSingleTask")
+    public TaskDocument getSingleTasks(@RequestParam String id){
+        return taskService.getSingleTask(id);
+    }
+
     @PostMapping("/addTask")
     public void addTask(@RequestBody AddTaskBody addTaskBody, @RequestHeader String deviceId){
         taskService.addTask(addTaskBody, deviceId);

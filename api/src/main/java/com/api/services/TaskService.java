@@ -44,6 +44,15 @@ public class TaskService {
         }
     }
 
+    public TaskDocument getSingleTask(String id){
+        if(taskRepo.findById(id).isPresent()){
+            return taskRepo.findById(id).get();
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found");
+        }
+    }
+
     public void addTask(AddTaskBody addTaskBody, String deviceId){
         TaskDocument newDocument = new TaskDocument(
                 ObjectId.get().toString(),
