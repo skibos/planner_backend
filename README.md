@@ -6,4 +6,4 @@ As far I have implemented 1 controller with 6 endpoints. API is connected with M
 
 Swagger:
 
-<img src="https://raw.github.com/skibos/planner_backend/main/api/src/main/resources/img/1.png" width="250" height="500"/>
+<img src="https://raw.github.com/skibos/planner_backend/main/api/src/main/resources/img/1.png"/>
