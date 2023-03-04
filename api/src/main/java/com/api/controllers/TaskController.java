@@ -17,7 +17,7 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @GetMapping("/getTasks")
+    @GetMapping("/taskList")
     public List<TaskDocument> getTasks(
             @RequestHeader String deviceId,
             @RequestHeader String date,
@@ -26,27 +26,27 @@ public class TaskController {
         return taskService.getTasks(deviceId, date, status);
     }
 
-    @GetMapping("/getSingleTask")
+    @GetMapping("/task")
     public TaskDocument getSingleTasks(@RequestParam String id){
         return taskService.getSingleTask(id);
     }
 
-    @PostMapping("/addTask")
+    @PostMapping("/task")
     public void addTask(@RequestBody AddTaskBody addTaskBody, @RequestHeader String deviceId){
         taskService.addTask(addTaskBody, deviceId);
     }
 
-    @DeleteMapping("/deleteAllTasks")
+    @DeleteMapping("/allTasks")
     public void deleteAllTasks(@RequestHeader String deviceId){
         taskService.deleteAllTasks(deviceId);
     }
 
-    @DeleteMapping("/deleteSingleTask")
+    @DeleteMapping("/task")
     public void deleteSingleTask(@RequestParam String id){
         taskService.deleteSingleTask(id);
     }
 
-    @PatchMapping("/updateTask")
+    @PatchMapping("/task")
     public void updateTask(@RequestBody PatchTaskBody patchTaskBody){
         taskService.updateTask(patchTaskBody);
     }
